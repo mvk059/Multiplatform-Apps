@@ -54,8 +54,8 @@ fun ComposeApp(navigationController: NavigationController) {
     // For simplicity, let's assume we have two routes: "home" and "details".
     println("WASM Route: ${currentRoute.value}, Home: ${Home.route}, Star: ${StarField.route}")
     when (currentRoute.value) {
-        Home.route -> HomeScreen(navigationController)
-        StarField.route -> StarField(navigationController = navigationController)
+        "", Home.route -> HomeScreen(navigationController)
+        StarField.route -> StarField()
         else -> NotFoundScreen(navigationController)
     }
 }
