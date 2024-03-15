@@ -22,7 +22,7 @@ jobs:
 
       # Build application
       - name: Test and Build
-        run: ./gradlew :web:build
+        run: ./gradlew :composeApp:wasmJsBrowserProductionRun
 
       - name: Copy "uninstantiated" file over (workaround for now)
         run: cp composeApp/build/compileSync/wasmJs/main/productionExecutable/kotlin/composeApp.uninstantiated.mjs composeApp/build/dist/wasmJs/productionExecutable
