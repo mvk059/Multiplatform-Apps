@@ -132,7 +132,6 @@ data class Star(
 @Composable
 fun StarField(
   modifier: Modifier = Modifier,
-  navigationController: NavigationController,
 ) {
 
   BoxWithConstraints(
@@ -182,21 +181,9 @@ fun StarField(
         }
       )
 
-      Row(
-        modifier = Modifier.fillMaxWidth(),
-//        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.Top,
-        content = {
-
-          Button(onClick = { navigationController.navigateTo(Screens.Home) }) {
-            Text(text = "Back")
-          }
-          Spacer(modifier = Modifier.weight(1f))
-          Button(onClick = { pause.value = !pause.value }) {
-            Text(text = "Pause")
-          }
-        }
-      )
+      Button(onClick = { pause.value = !pause.value }) {
+        Text(text = "Pause")
+      }
 
       Slider(
         modifier = Modifier
