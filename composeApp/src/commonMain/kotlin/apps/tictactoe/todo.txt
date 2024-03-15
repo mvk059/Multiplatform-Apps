@@ -1,0 +1,16 @@
+TODO
+max 10 players
+computer name random
+allowed string
+player name validation max string length
+Use Either class
+See what all classes to make internal
+
+Requirement
+Symbol selection: Dropdown or Display
+Name: Field
+Background: Black
+
+There should be an onboarding screen following the same design as above
+Requirements
+x

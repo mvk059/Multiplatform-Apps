@@ -57,10 +57,10 @@ fun HomeScreen(navigationController: NavigationController) {
         onClick = { navigationController.navigateTo(Screens.StarField) },
         content = { Text("StarField!") }
       )
-//      Button(
-//        onClick = { navigationController.navigateTo(Screens.Home) },
-//        content = { Text("Home") }
-//      )
+      Button(
+        onClick = { navigationController.navigateTo(Screens.TicTacToe) },
+        content = { Text("TicTacToe") }
+      )
       // Include other UI elements that were initially part of the App composable
     }
   }

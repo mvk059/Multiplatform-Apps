@@ -8,6 +8,7 @@ import apps.starfield.DetailScreen
 import apps.starfield.NotFoundScreen
 import navigation.Screens.*
 import apps.starfield.StarField
+import apps.tictactoe.ui.TicTacToe
 import kotlinx.browser.window
 import navigation.NavigationController
 import navigation.Screens
@@ -56,6 +57,7 @@ fun ComposeApp(navigationController: NavigationController) {
     when (currentRoute.value) {
         "", Home.route -> HomeScreen(navigationController)
         StarField.route -> StarField()
+        TicTacToe.route -> TicTacToe()
         else -> NotFoundScreen(navigationController)
     }
 }

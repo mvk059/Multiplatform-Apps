@@ -5,4 +5,5 @@ package navigation
 enum class Screens(val route: String) {
     Home("home"),
     StarField("starfield"),
+    TicTacToe("tictactoe"),
 }
