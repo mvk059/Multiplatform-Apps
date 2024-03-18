@@ -1,4 +1,4 @@
-package apps.tictactoe.ui
+package apps.tictactoe.ui.game
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -7,34 +7,29 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import apps.tictactoe.data.Symbol
-import apps.tictactoe.data.player.ComputerPlayer
-import apps.tictactoe.data.player.HumanPlayer
-import apps.tictactoe.logic.GameManager
-import apps.tictactoe.logic.TicTacToeGameManager
-import apps.tictactoe.logic.computer.EasyAI
-import apps.tictactoe.logic.winconditions.HorizontalWin
+import apps.tictactoe.logic.manager.GameManager
+import apps.tictactoe.logic.manager.TicTacToeGameManager
 import apps.tictactoe.ui.theme.Design
 
 @Composable
-fun TicTacToe() {
+fun TicTacToeGame() {
 
   val gameManager: GameManager = TicTacToeGameManager()
-  gameManager.initializeGame(
-    players = listOf(HumanPlayer("Manu", Symbol()), ComputerPlayer("Comp", Symbol(), EasyAI())),
-    boardSize = 3,
-    winConditions = listOf(HorizontalWin())
-  )
+//  gameManager.initializeGame(
+//    players = listOf(HumanPlayer(PlayerConfig("Manu", Symbol())), ComputerPlayer("Comp", Symbol(), EasyAI())),
+//    boardSize = 3,
+//    winConditions = listOf(HorizontalWin())
+//  )
 
-//  Box(modifier = Modifier.background(Design.boardColor)) {
-//    GameBoard(gameManager, 3)
-//  }
+  Box(modifier = Modifier.background(Design.boardColor)) {
+    GameBoard(gameManager, 3)
+  }
 
-  Scaffold(
-    topBar = { TicTacToeTopBar() },
-    content = { TicTacToeContent(gameManager) },
-    bottomBar = { NewGameButton({}) }
-  )
+//  Scaffold(
+//    topBar = { TicTacToeTopBar() },
+//    content = { TicTacToeContent(gameManager) },
+//    bottomBar = { NewGameButton({}) }
+//  )
 }
 
 @Composable

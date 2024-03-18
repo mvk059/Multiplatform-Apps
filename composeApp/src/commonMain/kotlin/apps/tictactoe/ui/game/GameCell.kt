@@ -1,4 +1,4 @@
-package apps.tictactoe.ui
+package apps.tictactoe.ui.game
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable

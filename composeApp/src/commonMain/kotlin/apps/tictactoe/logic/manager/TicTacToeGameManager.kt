@@ -1,18 +1,19 @@
-package apps.tictactoe.logic
+package apps.tictactoe.logic.manager
 
 import apps.tictactoe.data.Board
 import apps.tictactoe.data.Cell
 import apps.tictactoe.data.player.Player
+import apps.tictactoe.data.player.PlayerConfig
 import apps.tictactoe.logic.winconditions.WinCondition
 
 class TicTacToeGameManager : GameManager {
     private lateinit var gameBoard: Board
-    private lateinit var players: List<Player>
+    private lateinit var players: List<PlayerConfig>
     private var currentPlayerIndex = 0
     private lateinit var winConditions: List<WinCondition>
-    private val moveHistory = mutableListOf<Pair<Player, Cell>>()
+    private val moveHistory = mutableListOf<Pair<PlayerConfig, Cell>>()
 
-    override fun initializeGame(players: List<Player>, boardSize: Int, winConditions: List<WinCondition>) {
+    override fun initializeGame(players: List<PlayerConfig>, boardSize: Int, winConditions: List<WinCondition>) {
         if (players.size < 2) throw IllegalArgumentException("At least two players are required.")
         this.players = players
         this.gameBoard = Board(boardSize)
@@ -27,7 +28,7 @@ class TicTacToeGameManager : GameManager {
         println("Game started with ${players.size} players on a ${gameBoard.size}x${gameBoard.size} board.")
     }
 
-    override fun makeMove(player: Player, cell: Cell) {
+    override fun makeMove(player: PlayerConfig, cell: Cell) {
         require(players.contains(player)) { "Player not part of this game." }
         require(!cell.isOccupied) { "Cell is already occupied." }
 
@@ -39,7 +40,7 @@ class TicTacToeGameManager : GameManager {
         currentPlayerIndex = (currentPlayerIndex + 1) % players.size
     }
 
-    private fun checkForWin(player: Player, cell: Cell) {
+    private fun checkForWin(player: PlayerConfig, cell: Cell) {
         if (winConditions.any { it.checkWin(gameBoard, player.symbol, cell) }) {
             println("Player ${player.name} wins!")
             resetGame()

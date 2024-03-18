@@ -4,14 +4,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.window.CanvasBasedWindow
-import apps.starfield.DetailScreen
 import apps.starfield.NotFoundScreen
 import navigation.Screens.*
 import apps.starfield.StarField
-import apps.tictactoe.ui.TicTacToe
+import apps.tictactoe.TicTacToeIntro
 import kotlinx.browser.window
 import navigation.NavigationController
-import navigation.Screens
 import org.w3c.dom.events.Event
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -57,7 +55,7 @@ fun ComposeApp(navigationController: NavigationController) {
     when (currentRoute.value) {
         "", Home.route -> HomeScreen(navigationController)
         StarField.route -> StarField()
-        TicTacToe.route -> TicTacToe()
+        TicTacToe.route -> TicTacToeIntro()
         else -> NotFoundScreen(navigationController)
     }
 }

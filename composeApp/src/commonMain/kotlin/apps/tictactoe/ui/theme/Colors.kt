@@ -10,6 +10,8 @@ object Design {
   val textColor = Color.White // For any text that may appear over the deep red background
   val scoreBackgroundColor = Color(0xFFFFCDD2) // A lighter red for the score background
   val buttonColor = Color(0xFFFFAB91) // A light orange for buttons like "New Game"
+  val whiteColor = Color(0xFFFFFFFF) // White color
+  val orangeColor = Color(0xFFed6507) // A light orange for buttons like "New Game"
   // Define additional colors if needed for other elements like the top bar buttons
 }
 

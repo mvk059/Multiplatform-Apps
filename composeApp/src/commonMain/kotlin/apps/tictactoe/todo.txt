@@ -5,6 +5,7 @@ allowed string
 player name validation max string length
 Use Either class
 See what all classes to make internal
+add font
 
 Requirement
 Symbol selection: Dropdown or Display
@@ -13,4 +14,4 @@ Background: Black
 
 There should be an onboarding screen following the same design as above
 Requirements
-x
+

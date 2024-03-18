@@ -1,4 +1,4 @@
-package apps.tictactoe.ui
+package apps.tictactoe.ui.game
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -10,7 +10,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import apps.tictactoe.logic.GameManager
+import apps.tictactoe.logic.manager.GameManager
 
 @Composable
 fun GameBoard(gameManager: GameManager, boardSize: Int = 3) {
