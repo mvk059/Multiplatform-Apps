@@ -1,14 +1,10 @@
-package apps.tictactoe.ui.intro
+package apps.tictactoe.ui.intro.player
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
-import apps.tictactoe.logic.playmode.PlayMode
+import apps.tictactoe.logic.enums.PlayMode
 import apps.tictactoe.ui.components.TicButton
 
 @Composable

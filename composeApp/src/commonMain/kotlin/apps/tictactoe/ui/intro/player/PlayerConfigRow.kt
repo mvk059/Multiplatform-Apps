@@ -1,4 +1,4 @@
-package apps.tictactoe.ui.intro
+package apps.tictactoe.ui.intro.player
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer

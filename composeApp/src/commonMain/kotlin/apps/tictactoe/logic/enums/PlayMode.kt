@@ -1,4 +1,4 @@
-package apps.tictactoe.logic.playmode
+package apps.tictactoe.logic.enums
 
 enum class PlayMode {
     HUMAN_VS_HUMAN,

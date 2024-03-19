@@ -1,4 +1,4 @@
-package apps.tictactoe.ui.intro
+package apps.tictactoe.ui.intro.player
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
