@@ -6,7 +6,7 @@ import apps.tictactoe.data.Game
 import apps.tictactoe.data.Symbol
 import apps.tictactoe.data.player.PlayerConfig
 import apps.tictactoe.logic.config.GameConfigurator
-import apps.tictactoe.logic.enums.WinCondition
+import apps.tictactoe.data.enums.WinCondition
 
 class GameIntroViewModel(private val gameConfigurator: GameConfigurator) {
 

@@ -2,7 +2,7 @@ package apps.tictactoe.data
 
 import apps.tictactoe.data.player.PlayerConfig
 import apps.tictactoe.logic.computer.GameAI
-import apps.tictactoe.logic.enums.WinCondition
+import apps.tictactoe.data.enums.WinCondition
 
 data class Game(
   val players: List<PlayerConfig>,

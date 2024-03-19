@@ -14,8 +14,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import apps.tictactoe.logic.config.GameConfigurator
 import apps.tictactoe.logic.config.GameConfiguratorImpl
-import apps.tictactoe.logic.enums.AIDifficulty
-import apps.tictactoe.logic.enums.PlayMode
+import apps.tictactoe.data.enums.AIDifficulty
+import apps.tictactoe.data.enums.PlayMode
 import apps.tictactoe.ui.components.TicButton
 import apps.tictactoe.ui.intro.GameIntroViewModel
 import apps.tictactoe.ui.intro.computer.HumanVsComputerConfigScreen

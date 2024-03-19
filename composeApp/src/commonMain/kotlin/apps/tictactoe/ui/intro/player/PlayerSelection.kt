@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import apps.tictactoe.logic.enums.PlayMode
+import apps.tictactoe.data.enums.PlayMode
 import apps.tictactoe.ui.components.TicButton
 
 @Composable

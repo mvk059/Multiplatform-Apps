@@ -1,4 +1,4 @@
-package apps.tictactoe.logic.enums
+package apps.tictactoe.data.enums
 
 enum class WinCondition {
   HORIZONTAL,

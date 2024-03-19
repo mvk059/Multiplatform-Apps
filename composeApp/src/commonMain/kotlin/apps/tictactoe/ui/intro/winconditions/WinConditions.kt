@@ -7,7 +7,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import apps.tictactoe.logic.enums.WinCondition
+import apps.tictactoe.data.enums.WinCondition
 import apps.tictactoe.ui.components.TicButton
 import apps.tictactoe.ui.theme.Design
 
