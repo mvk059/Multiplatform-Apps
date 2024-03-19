@@ -1,13 +1,15 @@
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.platform.Font
 import androidx.compose.ui.window.CanvasBasedWindow
 import apps.starfield.NotFoundScreen
 import navigation.Screens.*
 import apps.starfield.StarField
 import apps.tictactoe.TicTacToeIntro
+import apps.tictactoe.ui.theme.Karla
+import apps.tictactoe.ui.theme.Montserrat
 import kotlinx.browser.window
 import navigation.NavigationController
 import org.w3c.dom.events.Event
@@ -19,6 +21,10 @@ fun main() {
 
     CanvasBasedWindow(canvasElementId = "ComposeTarget") {
 
+        LaunchedEffect(Unit) {
+            loadMontserratFont()
+            loadKarlaFont()
+        }
         ComposeApp(navigationController)
 //        App(navigationController)
     }
@@ -58,4 +64,28 @@ fun ComposeApp(navigationController: NavigationController) {
         TicTacToe.route -> TicTacToeIntro()
         else -> NotFoundScreen(navigationController)
     }
+}
+
+private suspend fun loadMontserratFont() {
+    val regular = loadResource("/montserrat_regular.ttf").toByteArray()
+    val medium = loadResource("/montserrat_medium.ttf").toByteArray()
+    val light = loadResource("/montserrat_light.ttf").toByteArray()
+    val semiBold = loadResource("/montserrat_semibold.ttf").toByteArray()
+
+    Montserrat = FontFamily(
+        Font(identity = "MontserratRegular", data = regular, weight = FontWeight.Normal),
+        Font(identity = "MontserratMedium", data = medium, weight = FontWeight.Medium),
+        Font(identity = "MontserratLight", data = light, weight = FontWeight.Light),
+        Font(identity = "MontserratSemiBold", data = semiBold, weight = FontWeight.SemiBold),
+    )
+}
+
+private suspend fun loadKarlaFont() {
+    val regular = loadResource("/karla_regular.ttf").toByteArray()
+    val bold = loadResource("/karla_bold.ttf").toByteArray()
+
+    Karla = FontFamily(
+        Font(identity = "KarlaRegular", data = regular, weight = FontWeight.Normal),
+        Font(identity = "KarlaBold", data = bold, weight = FontWeight.Bold),
+    )
 }
