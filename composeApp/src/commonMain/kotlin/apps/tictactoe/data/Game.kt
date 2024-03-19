@@ -9,9 +9,8 @@ data class Game(
   val aiDifficulty: GameAI?,
   val numberOfPlayers: Int,
   val currentPlayerIndex: Int,
-  val selectedNames: List<String>,
-  val selectedSymbols: List<Symbol>,
 ) {
+
   companion object {
     fun init(): Game = Game(
       players = listOf(),
@@ -19,8 +18,6 @@ data class Game(
       aiDifficulty = null,
       numberOfPlayers = 2,
       currentPlayerIndex = 0,
-      selectedNames = listOf(),
-      selectedSymbols = listOf(),
     )
   }
 }

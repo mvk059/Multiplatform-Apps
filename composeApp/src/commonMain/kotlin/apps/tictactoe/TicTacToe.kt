@@ -16,6 +16,7 @@ import apps.tictactoe.logic.config.GameConfigurator
 import apps.tictactoe.logic.config.GameConfiguratorImpl
 import apps.tictactoe.logic.playmode.AIDifficulty
 import apps.tictactoe.logic.playmode.PlayMode
+import apps.tictactoe.ui.intro.GameIntroViewModel
 import apps.tictactoe.ui.intro.PlayerSelection
 import apps.tictactoe.ui.intro.PlayersInfo
 import apps.tictactoe.ui.intro.computer.HumanVsComputerConfigScreen
@@ -25,23 +26,22 @@ import apps.tictactoe.ui.theme.Design
 @Composable
 fun TicTacToeIntro() {
 
-//  val gameConfigurator: GameConfigurator by remember {  mutableStateOf(GameConfiguratorImpl()) }
   val gameConfigurator: GameConfigurator = GameConfiguratorImpl()
-  var game: Game by remember { mutableStateOf(Game.init()) }
+  val vm = remember { GameIntroViewModel(gameConfigurator) }
+  val game = vm.game.value
   var playMode by remember { mutableStateOf(PlayMode.UNSELECTED) }
-//  var numberOfPlayers by remember { mutableStateOf(2) } // Default to 2 for Human vs Human
   var aiDifficulty by remember { mutableStateOf(AIDifficulty.UNSELECTED) }
 //  val playersConfigs = remember { mutableStateListOf<PlayerConfig>() }
 
-  LaunchedEffect(key1 = true) {
-    println("Main init start")
-    Symbol.initSymbols()
-    game = gameConfigurator.initializeForHumanPlayers(game, game.numberOfPlayers)
-    println("Main init end")
-//    playersConfigs.addAll(gameConfigurator.initializeForHumanPlayers(numberOfPlayers))
-  }
-
   println("Main start: $game")
+
+  LaunchedEffect(playMode) {
+    when(playMode) {
+      PlayMode.HUMAN_VS_HUMAN -> vm.initializeForHumanPlayers(game.numberOfPlayers)
+      PlayMode.HUMAN_VS_COMPUTER -> {} //TODO()
+      PlayMode.UNSELECTED -> {} //TODO()
+    }
+  }
 
   Column(
     modifier = Modifier.fillMaxSize().background(Design.backgroundColor),
@@ -77,24 +77,15 @@ fun TicTacToeIntro() {
 
                   HumanVsHumanConfigScreen(
                     numberOfPlayers = game.numberOfPlayers,
-                    onNumberOfPlayersUpdate = {
-
-//                      numberOfPlayers = it
-//                      gameConfigurator
-                      game = gameConfigurator.updatePlayers(game, it)
-//                      playersConfigs.addAll(gameConfigurator.initializeForHumanPlayers(it))
-                    }
+                    onNumberOfPlayersUpdate = vm::updatePlayers
                   )
 
                   Spacer(Modifier.height(16.dp))
 
                   PlayersInfo(
                     playersConfigs = game.players,
-                    symbolsAvailable = Symbol.getAllSymbols(),
-                    onPlayerConfigUpdate = { index, config ->
-                      println("Main config update : $index, $config")
-                      game = gameConfigurator.updatePlayerConfig(game, index, config)
-                    }
+                    symbolsAvailable = vm.getAvailableSymbols(), //Symbol.getAllSymbols(),
+                    onPlayerConfigUpdate = vm::updatePlayerConfig
                   )
                 }
 

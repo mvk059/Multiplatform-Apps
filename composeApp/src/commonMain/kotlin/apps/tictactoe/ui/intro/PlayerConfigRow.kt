@@ -24,7 +24,7 @@ fun PlayerConfigRow(
 ) {
 
   var playerName by remember { mutableStateOf(playerConfig.name) }
-//  var selectedSymbol by remember { mutableStateOf(playerConfig.symbol) }
+  var selectedSymbol by remember { mutableStateOf(playerConfig.symbol) }
 
   Row(
     modifier = modifier,
@@ -35,7 +35,6 @@ fun PlayerConfigRow(
         value = playerName,
         onValueChange = { newName ->
           playerName = newName
-          println("PlayerConfigRow new name: $newName")
           onConfigUpdated(playerConfig.copy(name = newName))
         },
         label = { Text("Name") }
@@ -43,16 +42,13 @@ fun PlayerConfigRow(
 
       Spacer(Modifier.width(8.dp))
 
-      // Compute available symbols excluding those already selected
-      println("PlayerConfigRow name: $playerConfig symbols: ${symbolsAvailable.joinToString()}")
-
       DropdownSelector(
         label = "Symbol for Player ${playerIndex + 1}",
         items = symbolsAvailable.map { it.value },
         selectedItem = playerConfig.symbol.value,
         onItemSelected = { newSymbol ->
           val symbol = newSymbol.getSymbol()!!
-//          selectedSymbol = symbol
+          selectedSymbol = symbol
           onConfigUpdated(playerConfig.copy(symbol = symbol))
         }
       )

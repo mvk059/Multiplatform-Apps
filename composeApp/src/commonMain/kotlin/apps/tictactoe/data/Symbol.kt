@@ -7,9 +7,6 @@ class Symbol private constructor(val value: String) {
 
     fun initSymbols() {
       val possibleSymbols = listOf("X", "O", "I", "V", "@", "#", "*") // Add more if needed
-//      if (size > possibleSymbols.size) {
-//        throw IllegalArgumentException("Not enough unique symbols for the number of players")
-//      }
       resetSymbols()
       possibleSymbols.shuffled().forEach { create(it) }
     }
