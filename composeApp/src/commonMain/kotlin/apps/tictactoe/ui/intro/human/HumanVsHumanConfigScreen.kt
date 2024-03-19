@@ -6,9 +6,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import apps.tictactoe.data.Game
 import apps.tictactoe.ui.components.DropdownSelector
 import apps.tictactoe.ui.theme.Design
 
@@ -22,7 +24,8 @@ fun HumanVsHumanConfigScreen(
   Row(
     modifier = modifier.fillMaxWidth(),
 //      .background(shape = RectangleShape, color = Color.Cyan),
-    horizontalArrangement = Arrangement.SpaceAround,
+    horizontalArrangement = Arrangement.SpaceEvenly,
+    verticalAlignment = Alignment.CenterVertically,
     content = {
 
       Text(
@@ -34,7 +37,7 @@ fun HumanVsHumanConfigScreen(
 
       DropdownSelector(
         label = "Number of players",
-        items = (2..5).toList(),
+        items = (Game.MIN_PLAYERS..Game.MAX_PLAYERS).toList(),
         selectedItem = numberOfPlayers,
         onItemSelected = {
           onNumberOfPlayersUpdate(it)

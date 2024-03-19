@@ -6,11 +6,13 @@ import apps.tictactoe.data.Game
 import apps.tictactoe.data.Symbol
 import apps.tictactoe.data.player.PlayerConfig
 import apps.tictactoe.logic.config.GameConfigurator
+import apps.tictactoe.logic.enums.WinCondition
 
 class GameIntroViewModel(private val gameConfigurator: GameConfigurator) {
 
   // Holds the current game configuration
   var game: MutableState<Game> = mutableStateOf(Game.init())
+    private set
 
   init {
     Symbol.initSymbols()
@@ -41,8 +43,25 @@ class GameIntroViewModel(private val gameConfigurator: GameConfigurator) {
     )
   }
 
+  fun onWinConditionUpdate(condition: WinCondition) {
+    val currentConditions = game.value.winConditions.toMutableSet()
+    if (currentConditions.contains(condition)) currentConditions.remove(condition)
+    else currentConditions.add(condition)
+
+    game.value = game.value.copy(
+      winConditions = currentConditions.toSet()
+    )
+  }
+
   fun getAvailableSymbols(): List<Symbol> {
     val usedSymbols = game.value.players.map { it.symbol }
     return Symbol.getAllSymbols().filter { it !in usedSymbols }
+  }
+
+  fun validateIntroSetup(): Boolean {
+    val playerName = game.value.players.map { it.name.isNotBlank() }.isNotEmpty()
+    val playerSymbol = game.value.players.map { it.symbol.value.isNotEmpty() }.isNotEmpty()
+    val playerWinningConditions = game.value.winConditions.isNotEmpty()
+    return playerName && playerSymbol && playerWinningConditions
   }
 }

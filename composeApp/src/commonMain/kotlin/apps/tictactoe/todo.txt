@@ -6,6 +6,8 @@ player name validation max string length
 Use Either class
 See what all classes to make internal
 add font
+Update colors of dropdown text field
+Handle validations
 
 Requirement
 Symbol selection: Dropdown or Display
