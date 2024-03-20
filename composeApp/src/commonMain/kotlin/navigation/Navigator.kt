@@ -1,5 +1,5 @@
 package navigation
 
-expect class NavigationController() {
+expect class NavigationController {
     fun navigateTo(route: Screens)
 }
