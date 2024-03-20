@@ -2,13 +2,21 @@ package apps.tictactoe.ui.intro
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import apps.tictactoe.data.Board
+import apps.tictactoe.data.Cell
 import apps.tictactoe.data.Game
 import apps.tictactoe.data.Symbol
+import apps.tictactoe.data.enums.GameStatus
+import apps.tictactoe.data.enums.GameWinStatus
+import apps.tictactoe.data.enums.WinCondition
 import apps.tictactoe.data.player.PlayerConfig
 import apps.tictactoe.logic.config.GameConfigurator
-import apps.tictactoe.data.enums.WinCondition
+import apps.tictactoe.logic.manager.GameManager
 
-class GameIntroViewModel(private val gameConfigurator: GameConfigurator) {
+class GameViewModel(
+  private val gameConfigurator: GameConfigurator,
+  private val gameManager: GameManager,
+) {
 
   // Holds the current game configuration
   var game: MutableState<Game> = mutableStateOf(Game.init())
@@ -64,4 +72,48 @@ class GameIntroViewModel(private val gameConfigurator: GameConfigurator) {
     val playerWinningConditions = game.value.winConditions.isNotEmpty()
     return playerName && playerSymbol && playerWinningConditions
   }
+
+  fun startGame() {
+    game.value = game.value.copy(
+      currentPlayer = game.value.players[0],
+      currentPlayerIndex = 0,
+      gameStatus = GameStatus.STARTED,
+      gameBoard = Board(game.value.numberOfPlayers + 1),
+      moveHistory = mutableListOf()
+    )
+  }
+
+  fun makeMove(cell: Cell) {
+//    require(game.value.players.contains(game.value.currentPlayer)) { "Player not part of this game." }
+    var currentPlayer = game.value.currentPlayer
+    var currentPlayerIndex = game.value.currentPlayerIndex
+    require(currentPlayer != null) { "Player is not part of game" }
+
+    val isPlaced = gameManager.makeMove(currentPlayer, game.value.gameBoard, cell)
+    if (isPlaced) {
+      val moveHistory = game.value.moveHistory.toMutableList()
+      moveHistory.add(currentPlayer to cell)
+      val gameWinStatus = gameManager.checkForWin(game.value.gameBoard, cell, game.value.winConditions)
+      when (gameWinStatus) {
+        GameWinStatus.WIN -> resetGame() // TODO
+        GameWinStatus.DRAW -> {} // TODO()
+        GameWinStatus.IN_PROGRESS -> {}
+      }
+      currentPlayerIndex = (currentPlayerIndex + 1) % game.value.players.size
+      currentPlayer = game.value.players[currentPlayerIndex]
+      game.value = game.value.copy(
+        currentPlayerIndex = currentPlayerIndex,
+        currentPlayer = currentPlayer,
+        moveHistory = moveHistory,
+      )
+    } else {
+      // TODO Handle
+    }
+  }
+
+  private fun resetGame() {
+
+  }
+
+
 }

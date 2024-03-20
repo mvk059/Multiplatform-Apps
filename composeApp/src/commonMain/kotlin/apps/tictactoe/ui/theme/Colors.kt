@@ -5,8 +5,8 @@ import androidx.compose.ui.graphics.Color
 
 object Design {
   val backgroundColor = Color(0xFFE53935) // A deep red color background
-  val boardColor = Color(0xFFD7CCC8) // A light brown color for the board
-  val cellBorderColor = Color(0xFFA1887F) // A darker brown for the cell border
+  val boardColor = Color(0xFFD9AB8A) // A light brown color for the board
+  val cellBorderColor = Color(0xFF9e3901) // A darker brown for the cell border
   val textColor = Color.White // For any text that may appear over the deep red background
   val scoreBackgroundColor = Color(0xFFFFCDD2) // A lighter red for the score background
   val buttonColor = Color(0xFFFFAB91) // A light orange for buttons like "New Game"

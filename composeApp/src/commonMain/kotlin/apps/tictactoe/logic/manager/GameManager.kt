@@ -2,18 +2,19 @@ package apps.tictactoe.logic.manager
 
 import apps.tictactoe.data.Board
 import apps.tictactoe.data.Cell
-import apps.tictactoe.data.Symbol
-import apps.tictactoe.data.player.Player
+import apps.tictactoe.data.enums.GameWinStatus
+import apps.tictactoe.data.enums.WinCondition
 import apps.tictactoe.data.player.PlayerConfig
-import apps.tictactoe.logic.winconditions.WinCondition
 
 interface GameManager {
 
-  fun initializeGame(players: List<PlayerConfig>, boardSize: Int, winConditions: List<WinCondition>)
-  fun startGame()
-  fun makeMove(player: PlayerConfig, cell: Cell)
-  fun undoMove()
+  fun makeMove(player: PlayerConfig, board: Board, cell: Cell): Boolean
+
+  fun checkForWin(board: Board, cell: Cell, winConditions: Set<WinCondition>): GameWinStatus
+
+  fun undoMove(board: Board, moveHistory: MutableList<Pair<PlayerConfig, Cell>>)
+
   fun resetGame()
+
   fun onCellClicked(row: Int, col: Int)
-  fun getBoardState(): Array<Array<Cell>>
 }

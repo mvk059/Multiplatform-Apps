@@ -2,76 +2,46 @@ package apps.tictactoe.logic.manager
 
 import apps.tictactoe.data.Board
 import apps.tictactoe.data.Cell
-import apps.tictactoe.data.player.Player
+import apps.tictactoe.data.enums.GameWinStatus
+import apps.tictactoe.data.enums.WinCondition
 import apps.tictactoe.data.player.PlayerConfig
-import apps.tictactoe.logic.winconditions.WinCondition
+import apps.tictactoe.logic.winconditions.*
 
 class TicTacToeGameManager : GameManager {
-    private lateinit var gameBoard: Board
-    private lateinit var players: List<PlayerConfig>
-    private var currentPlayerIndex = 0
-    private lateinit var winConditions: List<WinCondition>
-    private val moveHistory = mutableListOf<Pair<PlayerConfig, Cell>>()
 
-    override fun initializeGame(players: List<PlayerConfig>, boardSize: Int, winConditions: List<WinCondition>) {
-        if (players.size < 2) throw IllegalArgumentException("At least two players are required.")
-        this.players = players
-        this.gameBoard = Board(boardSize)
-        this.winConditions = winConditions
-        currentPlayerIndex = 0
-        moveHistory.clear()
+  override fun makeMove(player: PlayerConfig, board: Board, cell: Cell): Boolean {
+    if (cell.isOccupied) return false
+    return board.placeSymbol(cell, player.symbol)
+  }
+
+  override fun checkForWin(board: Board, cell: Cell, winConditions: Set<WinCondition>): GameWinStatus {
+    return if (winConditions.toWinConditions().any { it.checkWin(board, cell) }) return GameWinStatus.WIN
+    else if (board.isFull()) GameWinStatus.DRAW
+    else GameWinStatus.IN_PROGRESS
+  }
+
+  override fun undoMove(board: Board, moveHistory: MutableList<Pair<PlayerConfig, Cell>>) {
+    if (moveHistory.isEmpty()) return
+
+    val (player, cell) = moveHistory.removeAt(moveHistory.lastIndex)
+    board.clearCell(cell)
+    println("Move undone. It's ${player.name}'s turn again.")
+  }
+
+  override fun resetGame() {
+  }
+
+  override fun onCellClicked(row: Int, col: Int) {
+  }
+
+  private fun Set<WinCondition>.toWinConditions(): List<WinConditions> {
+    return this.map {
+      when (it) {
+        WinCondition.HORIZONTAL -> HorizontalWin()
+        WinCondition.VERTICAL -> VerticalWin()
+        WinCondition.DIAGONAL -> DiagonalWin()
+        WinCondition.CORNER -> CornerWin()
+      }
     }
-
-    override fun startGame() {
-        // The game loop could be managed here if this were a console application.
-        // For GUI applications, moves might be triggered by user interactions directly.
-        println("Game started with ${players.size} players on a ${gameBoard.size}x${gameBoard.size} board.")
-    }
-
-    override fun makeMove(player: PlayerConfig, cell: Cell) {
-        require(players.contains(player)) { "Player not part of this game." }
-        require(!cell.isOccupied) { "Cell is already occupied." }
-
-        gameBoard.placeSymbol(cell, player.symbol)
-        moveHistory.add(player to cell)
-        checkForWin(player, cell)
-
-        // Prepare for next player's turn
-        currentPlayerIndex = (currentPlayerIndex + 1) % players.size
-    }
-
-    private fun checkForWin(player: PlayerConfig, cell: Cell) {
-        if (winConditions.any { it.checkWin(gameBoard, player.symbol, cell) }) {
-            println("Player ${player.name} wins!")
-            resetGame()
-        } else if (gameBoard.isFull()) {
-            println("The game is a draw.")
-            resetGame()
-        }
-    }
-
-    override fun undoMove() {
-        if (moveHistory.isEmpty()) return
-
-        val (player, cell) = moveHistory.removeAt(moveHistory.lastIndex)
-        gameBoard.clearCell(cell)
-        println("Move undone. It's ${player.name}'s turn again.")
-
-        // Adjust the current player index to give the turn back to the player who had their move undone
-        currentPlayerIndex = if (currentPlayerIndex - 1 < 0) players.lastIndex else currentPlayerIndex - 1
-    }
-
-    override fun resetGame() {
-        gameBoard.resetBoard()
-        moveHistory.clear()
-        println("Game has been reset.")
-    }
-
-    override fun onCellClicked(row: Int, col: Int) {
-
-    }
-
-    override fun getBoardState(): Array<Array<Cell>> {
-        return gameBoard.board
-    }
+  }
 }

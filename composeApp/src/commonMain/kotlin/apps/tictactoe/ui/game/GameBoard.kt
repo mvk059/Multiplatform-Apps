@@ -1,35 +1,33 @@
 package apps.tictactoe.ui.game
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
-import apps.tictactoe.logic.manager.GameManager
+import apps.tictactoe.data.Board
+import apps.tictactoe.data.Cell
 
 @Composable
-fun GameBoard(gameManager: GameManager, boardSize: Int = 3) {
+fun GameBoard(
+  board: Board,
+  onCellClicked: (Cell) -> Unit,
+) {
 
-  val gameState = remember { mutableStateOf(gameManager.getBoardState()) }
 
   Column(
     modifier = Modifier
-      .background(Color(0xFFA1887F)) // Background color for the board
-      .padding(16.dp),
+      .wrapContentSize(),
+    horizontalAlignment = Alignment.CenterHorizontally,
+    verticalArrangement = Arrangement.Center,
     content = {
 
-      for (row in 0 until boardSize) {
+      for (row in 0 until board.size) {
         Row(
           content = {
-            for (col in 0 until boardSize) {
+            for (col in 0 until board.size) {
               GameCell(
-                symbol = gameState.value[row][col].symbol,
-                onClick = { gameManager.onCellClicked(row, col) }
+                cell = board.board[row][col],
+                onClick = onCellClicked,
               )
             }
           }
