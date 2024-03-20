@@ -1,19 +1,18 @@
 TODO
-max 10 players
-computer name random
+DONE max 5 players
+DONE name random
+DONE add font
+DONE There should be an onboarding screen following the same design as above
 allowed string
 player name validation max string length
 Use Either class
 See what all classes to make internal
-add font
+Use font correctly
 Update colors of dropdown text field
 Handle validations
-
-Requirement
-Symbol selection: Dropdown or Display
-Name: Field
-Background: Black
-
-There should be an onboarding screen following the same design as above
-Requirements
+Game won/draw screen/popup/text
+Scorecard UI
+Restart/New Game UI
+Undo UI
+More than 3*3 board
 
