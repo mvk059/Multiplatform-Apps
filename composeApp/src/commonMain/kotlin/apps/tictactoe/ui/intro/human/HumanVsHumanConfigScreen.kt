@@ -13,23 +13,24 @@ import androidx.compose.ui.unit.sp
 import apps.tictactoe.data.Game
 import apps.tictactoe.ui.components.DropdownSelector
 import apps.tictactoe.ui.theme.Design
+import utils.WindowWidthSize
 
 @Composable
 fun HumanVsHumanConfigScreen(
   modifier: Modifier = Modifier,
+  windowWidthSize: WindowWidthSize,
   numberOfPlayers: Int,
   onNumberOfPlayersUpdate: (Int) -> Unit,
 ) {
 
   Row(
     modifier = modifier.fillMaxWidth(),
-//      .background(shape = RectangleShape, color = Color.Cyan),
     horizontalArrangement = Arrangement.SpaceEvenly,
     verticalAlignment = Alignment.CenterVertically,
     content = {
 
       Text(
-        text = "Number of Players",
+        text = "Players",
         modifier = Modifier.padding(top = 8.dp),
         color = Design.whiteColor,
         fontSize = 32.sp,

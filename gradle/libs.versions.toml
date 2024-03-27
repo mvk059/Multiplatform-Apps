@@ -13,6 +13,7 @@ androidx-navigation-compose = "2.4.2"
 androidx-test-junit = "1.1.5"
 compose = "1.6.2"
 compose-plugin = "1.6.0"
+composeWindowSize = "0.5.0"
 junit = "4.13.2"
 kotlin = "1.9.22"
 
@@ -30,6 +31,7 @@ androidx-activity-compose = { module = "androidx.activity:activity-compose", ver
 compose-navigation = { module = "androidx.navigation:navigation-compose", version.ref = "androidx-navigation-compose" }
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
+compose-window-size = { module = "dev.chrisbanes.material3:material3-window-size-class-multiplatform", version.ref = "composeWindowSize" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
