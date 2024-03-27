@@ -9,14 +9,13 @@ import apps.tictactoe.data.Cell
 
 @Composable
 fun GameBoard(
+  modifier: Modifier = Modifier,
   board: Board,
   onCellClicked: (Cell) -> Unit,
 ) {
 
-
   Column(
-    modifier = Modifier
-      .wrapContentSize(),
+    modifier = modifier.wrapContentSize(),
     horizontalAlignment = Alignment.CenterHorizontally,
     verticalArrangement = Arrangement.Center,
     content = {

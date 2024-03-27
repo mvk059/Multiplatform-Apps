@@ -1,8 +1,5 @@
 package apps.tictactoe
 
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.SpringSpec
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -34,7 +31,6 @@ import apps.tictactoe.ui.intro.player.PlayerSelection
 import apps.tictactoe.ui.intro.player.PlayersInfo
 import apps.tictactoe.ui.intro.winconditions.WinConditions
 import apps.tictactoe.ui.theme.Design
-import utils.PanelState
 import utils.WindowWidthSize
 import utils.mapToWindowWidthSize
 
@@ -43,16 +39,6 @@ import utils.mapToWindowWidthSize
 fun TicTacToeIntro() {
 
   val windowSizeClass = calculateWindowSizeClass()
-  val panelState = remember { PanelState() }
-
-  val animatedSize = if (panelState.splitter.isResizing) {
-    if (panelState.isExpanded) panelState.expandedSize else panelState.collapsedSize
-  } else {
-    animateDpAsState(
-      if (panelState.isExpanded) panelState.expandedSize else panelState.collapsedSize,
-      SpringSpec(stiffness = Spring.StiffnessLow)
-    ).value
-  }
 
   // Getting the window size
   val windowWidthSize: MutableState<WindowWidthSize> = remember { mutableStateOf(WindowWidthSize.Compact) }
@@ -169,7 +155,6 @@ fun TicTacToeIntro() {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     content = {
                       TicTacToeGame(
-                        vm = vm,
                         game = game,
                         onCellClicked = vm::makeMove
                       )

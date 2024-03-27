@@ -15,4 +15,5 @@ Scorecard UI
 Restart/New Game UI
 Undo UI
 More than 3*3 board
+Remove ripple effect on cell click
 

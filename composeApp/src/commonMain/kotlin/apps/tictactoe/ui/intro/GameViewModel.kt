@@ -85,6 +85,9 @@ class GameViewModel(
 
   fun makeMove(cell: Cell) {
 //    require(game.value.players.contains(game.value.currentPlayer)) { "Player not part of this game." }
+    // TODO If game is won or draw don't update or enable click on cells
+    if (game.value.gameWinStatus != GameWinStatus.IN_PROGRESS) return
+
     var currentPlayer = game.value.currentPlayer
     var currentPlayerIndex = game.value.currentPlayerIndex
     require(currentPlayer != null) { "Player is not part of game" }
@@ -95,9 +98,9 @@ class GameViewModel(
       moveHistory.add(currentPlayer to cell)
       val gameWinStatus = gameManager.checkForWin(game.value.gameBoard, cell, game.value.winConditions)
       when (gameWinStatus) {
-        GameWinStatus.WIN -> resetGame() // TODO
-        GameWinStatus.DRAW -> {} // TODO()
-        GameWinStatus.IN_PROGRESS -> {}
+        GameWinStatus.WIN -> println("Game Won") // resetGame() // TODO
+        GameWinStatus.DRAW -> println("Game Draw") // TODO()
+        GameWinStatus.IN_PROGRESS -> println("Game InProgress")
       }
       currentPlayerIndex = (currentPlayerIndex + 1) % game.value.players.size
       currentPlayer = game.value.players[currentPlayerIndex]
@@ -105,6 +108,7 @@ class GameViewModel(
         currentPlayerIndex = currentPlayerIndex,
         currentPlayer = currentPlayer,
         moveHistory = moveHistory,
+        gameWinStatus = gameWinStatus,
       )
     } else {
       // TODO Handle
@@ -114,6 +118,5 @@ class GameViewModel(
   private fun resetGame() {
 
   }
-
 
 }
