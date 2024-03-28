@@ -14,15 +14,13 @@ data class Board(val size: Int) {
   }
 
   fun placeSymbol(cell: Cell, symbol: Symbol): Boolean {
-    if (cell.isOccupied) {
-      return false
-    }
+    if (cell.isOccupied) return false
     cell.occupy(symbol)
     return true
   }
 
   fun clearCell(cell: Cell) {
-
+    board[cell.row][cell.column].clear()
   }
 
   fun resetBoard() {
@@ -33,9 +31,16 @@ data class Board(val size: Int) {
     }
   }
 
-  // TODO Can be improved
   fun isFull(): Boolean {
-    return board.all { row -> row.all { cell -> cell.isOccupied } }
+    return isBoardInState { cell -> cell.isOccupied }
+  }
+
+  fun isEmpty(): Boolean {
+    return isBoardInState { cell -> !cell.isOccupied }
+  }
+
+  private fun isBoardInState(condition: (Cell) -> Boolean): Boolean {
+    return board.none { row -> row.any { cell -> !condition(cell) } }
   }
 
 }
