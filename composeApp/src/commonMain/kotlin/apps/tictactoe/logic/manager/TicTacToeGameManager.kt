@@ -20,14 +20,6 @@ class TicTacToeGameManager : GameManager {
     else GameWinStatus.IN_PROGRESS
   }
 
-  override fun undoMove(board: Board, moveHistory: MutableList<Pair<PlayerConfig, Cell>>) {
-    if (moveHistory.isEmpty()) return
-
-    val (player, cell) = moveHistory.removeAt(moveHistory.lastIndex)
-    board.clearCell(cell)
-    println("Move undone. It's ${player.name}'s turn again.")
-  }
-
   override fun resetGame() {
   }
 

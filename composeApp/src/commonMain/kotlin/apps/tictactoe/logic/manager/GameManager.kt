@@ -12,8 +12,6 @@ interface GameManager {
 
   fun checkForWin(board: Board, cell: Cell, winConditions: Set<WinCondition>): GameWinStatus
 
-  fun undoMove(board: Board, moveHistory: MutableList<Pair<PlayerConfig, Cell>>)
-
   fun resetGame()
 
   fun onCellClicked(row: Int, col: Int)
