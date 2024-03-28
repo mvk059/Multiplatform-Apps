@@ -11,14 +11,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import apps.tictactoe.data.Cell
 import apps.tictactoe.data.Game
-import apps.tictactoe.data.enums.GameWinStatus
-import apps.tictactoe.ui.intro.GameViewModel
+import apps.tictactoe.ui.components.TicButton
 import apps.tictactoe.ui.theme.Design
 
 @Composable
 fun TicTacToeGame(
   game: Game,
+  playerStatus: Pair<String, String>,
   onCellClicked: (Cell) -> Unit,
+  shouldEnableUndo: () -> Boolean,
+  onUndo: () -> Unit,
+  onRestartGame: () -> Unit,
 ) {
 
   Box(
@@ -31,6 +34,8 @@ fun TicTacToeGame(
         verticalArrangement = Arrangement.Center,
         content = {
 
+          Spacer(Modifier.height(16.dp))
+
           GameBoard(
             modifier = Modifier.background(color = Design.boardColor, shape = RoundedCornerShape(16.dp)),
             board = game.gameBoard,
@@ -39,13 +44,36 @@ fun TicTacToeGame(
 
           Spacer(Modifier.height(16.dp))
 
-          if (game.gameWinStatus != GameWinStatus.IN_PROGRESS) {
-            Text(
-              text = game.gameWinStatus.name,
-              color = Design.whiteColor,
-              fontSize = 16.sp,
-            )
-          }
+          Text(
+            text = "${playerStatus.first} ${playerStatus.second}",
+            color = Design.whiteColor,
+            fontSize = 16.sp,
+          )
+
+          Spacer(Modifier.height(16.dp))
+
+          Row(
+            modifier = Modifier.wrapContentWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            content = {
+              if (shouldEnableUndo()) {
+                TicButton(
+                  text = "Undo",
+                  onClick = onUndo,
+                )
+              }
+
+              Spacer(Modifier.width(16.dp))
+
+              TicButton(
+                text = "Restart Game",
+                onClick = onRestartGame
+              )
+
+            }
+          )
+
         }
       )
     }

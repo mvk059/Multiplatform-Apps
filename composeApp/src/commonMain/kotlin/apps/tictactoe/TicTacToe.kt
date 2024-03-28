@@ -47,13 +47,13 @@ fun TicTacToeIntro() {
   val gameManager: GameManager = TicTacToeGameManager()
   val vm = remember { GameViewModel(gameConfigurator, gameManager) }
   val game = vm.game.value
-  var playMode by remember { mutableStateOf(PlayMode.UNSELECTED) }
-  var aiDifficulty by remember { mutableStateOf(AIDifficulty.UNSELECTED) }
+  val playMode = remember { mutableStateOf(PlayMode.HUMAN_VS_HUMAN) }
+//  var aiDifficulty by remember { mutableStateOf(AIDifficulty.UNSELECTED) }
 
   println("Main start: $game")
 
-  LaunchedEffect(playMode) {
-    when (playMode) {
+  LaunchedEffect(playMode.value) {
+    when (playMode.value) {
       PlayMode.HUMAN_VS_HUMAN -> vm.initializeForHumanPlayers(game.numberOfPlayers)
       PlayMode.HUMAN_VS_COMPUTER -> {} //TODO()
       PlayMode.UNSELECTED -> {} //TODO()
@@ -98,14 +98,14 @@ fun TicTacToeIntro() {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     content = {
 
-                      PlayerSelection(
-                        windowWidthSize = windowWidthSize.value,
-                        onPlayModeSelected = { playMode = it }
-                      )
+//                      PlayerSelection(
+//                        windowWidthSize = windowWidthSize.value,
+//                        onPlayModeSelected = { playMode = it }
+//                      )
+//
+//                      Spacer(Modifier.height(32.dp))
 
-                      Spacer(Modifier.height(32.dp))
-
-                      when (playMode) {
+                      when (playMode.value) {
 
                         PlayMode.HUMAN_VS_HUMAN -> {
 
@@ -156,7 +156,11 @@ fun TicTacToeIntro() {
                     content = {
                       TicTacToeGame(
                         game = game,
-                        onCellClicked = vm::makeMove
+                        playerStatus = vm.getPlayerStatus(),
+                        onCellClicked = vm::makeMove,
+                        shouldEnableUndo = vm::shouldShowUndo,
+                        onUndo = vm::undo,
+                        onRestartGame = vm::onRestartGame,
                       )
                     }
                   )

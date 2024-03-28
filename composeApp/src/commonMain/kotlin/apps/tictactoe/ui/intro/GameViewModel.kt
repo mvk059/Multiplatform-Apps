@@ -67,8 +67,9 @@ class GameViewModel(
   }
 
   fun validateIntroSetup(): Boolean {
-    val playerName = game.value.players.map { it.name.isNotBlank() }.isNotEmpty()
-    val playerSymbol = game.value.players.map { it.symbol.value.isNotEmpty() }.isNotEmpty()
+    if (game.value.players.isEmpty()) return false
+    val playerName = game.value.players.all { it.name.isNotEmpty() } // game.value.players.map { it.name.isNotBlank() }.isNotEmpty()
+    val playerSymbol = game.value.players.all { it.symbol.value.isNotEmpty() } // game.value.players.map { it.symbol.value.isNotEmpty() }.isNotEmpty()
     val playerWinningConditions = game.value.winConditions.isNotEmpty()
     return playerName && playerSymbol && playerWinningConditions
   }
@@ -84,8 +85,6 @@ class GameViewModel(
   }
 
   fun makeMove(cell: Cell) {
-//    require(game.value.players.contains(game.value.currentPlayer)) { "Player not part of this game." }
-    // TODO If game is won or draw don't update or enable click on cells
     if (game.value.gameWinStatus != GameWinStatus.IN_PROGRESS) return
 
     var currentPlayer = game.value.currentPlayer
@@ -97,16 +96,12 @@ class GameViewModel(
       val moveHistory = game.value.moveHistory.toMutableList()
       moveHistory.add(currentPlayer to cell)
       val gameWinStatus = gameManager.checkForWin(game.value.gameBoard, cell, game.value.winConditions)
-      when (gameWinStatus) {
-        GameWinStatus.WIN -> println("Game Won") // resetGame() // TODO
-        GameWinStatus.DRAW -> println("Game Draw") // TODO()
-        GameWinStatus.IN_PROGRESS -> println("Game InProgress")
-      }
+      println("Game ${gameWinStatus.name}")
       currentPlayerIndex = (currentPlayerIndex + 1) % game.value.players.size
       currentPlayer = game.value.players[currentPlayerIndex]
       game.value = game.value.copy(
-        currentPlayerIndex = currentPlayerIndex,
-        currentPlayer = currentPlayer,
+        currentPlayerIndex = if (gameWinStatus == GameWinStatus.WIN) game.value.currentPlayerIndex else currentPlayerIndex,
+        currentPlayer = if (gameWinStatus == GameWinStatus.WIN) game.value.currentPlayer else currentPlayer,
         moveHistory = moveHistory,
         gameWinStatus = gameWinStatus,
       )
@@ -115,8 +110,46 @@ class GameViewModel(
     }
   }
 
-  private fun resetGame() {
+  fun shouldShowUndo(): Boolean {
+    if (game.value.gameWinStatus != GameWinStatus.IN_PROGRESS) return false
+    return !game.value.gameBoard.isEmpty() // gameManager.isBoardEmpty(game.value.gameBoard)
+  }
 
+  fun undo() {
+    println("Undo")
+    val moveHistory = game.value.moveHistory.toMutableList()
+    val (player, cell) = moveHistory.removeAt(moveHistory.lastIndex)
+    game.value.gameBoard.clearCell(cell)
+    println("Move undone. It's ${player.name}'s turn again.")
+    println("CurrentPlayerIndex: ${game.value.currentPlayerIndex}, players: ${game.value.players}")
+
+    val currentPlayerIndex = (game.value.currentPlayerIndex - 1 + game.value.players.size) % game.value.players.size
+    val currentPlayer = game.value.players[currentPlayerIndex]
+    game.value = game.value.copy(
+      currentPlayerIndex = currentPlayerIndex,
+      currentPlayer = currentPlayer,
+      moveHistory = moveHistory,
+    )
+  }
+
+  fun getPlayerStatus(): Pair<String, String> =
+    when (game.value.gameWinStatus) {
+      GameWinStatus.WIN -> Pair(game.value.currentPlayer?.name ?: "", game.value.gameWinStatus.name)
+      GameWinStatus.DRAW -> Pair("", GameWinStatus.DRAW.name)
+      GameWinStatus.IN_PROGRESS -> Pair("", "")
+    }
+
+  fun onRestartGame() {
+    val moveHistory = game.value.moveHistory.toMutableList()
+    game.value.gameBoard.resetBoard()
+    moveHistory.clear()
+    game.value = game.value.copy(
+      moveHistory = moveHistory,
+      currentPlayerIndex = 0,
+      currentPlayer = game.value.players[0],
+      gameStatus = GameStatus.STARTED,
+      gameWinStatus = GameWinStatus.IN_PROGRESS,
+    )
   }
 
 }

@@ -11,11 +11,11 @@ data class Game(
   val vsComputer: Boolean,
   val aiDifficulty: GameAI?,
   val numberOfPlayers: Int,
+  val currentPlayer: PlayerConfig?,
   val currentPlayerIndex: Int,
   val gameStatus: GameStatus,
   val gameWinStatus: GameWinStatus,
   val winConditions: Set<WinCondition>,
-  val currentPlayer: PlayerConfig?,
   val gameBoard: Board,
   val moveHistory: List<Pair<PlayerConfig, Cell>>
 ) {
@@ -30,11 +30,11 @@ data class Game(
       vsComputer = false,
       aiDifficulty = null,
       numberOfPlayers = 2,
+      currentPlayer = null,
       currentPlayerIndex = 0,
       gameStatus = GameStatus.INTRO,
       gameWinStatus = GameWinStatus.IN_PROGRESS,
       winConditions = setOf(WinCondition.HORIZONTAL, WinCondition.VERTICAL, WinCondition.DIAGONAL),
-      currentPlayer = null,
       gameBoard = Board(3),
       moveHistory = mutableListOf()
     )
