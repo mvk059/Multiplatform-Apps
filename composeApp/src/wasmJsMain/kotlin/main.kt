@@ -1,10 +1,5 @@
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.platform.Font
@@ -16,7 +11,6 @@ import apps.tictactoe.TicTacToeIntro
 import apps.tictactoe.ui.theme.Karla
 import apps.tictactoe.ui.theme.Montserrat
 import kotlinx.browser.window
-import kotlinx.coroutines.delay
 import navigation.NavigationController
 import org.w3c.dom.events.Event
 
@@ -27,23 +21,12 @@ fun main() {
 
     CanvasBasedWindow(canvasElementId = "ComposeTarget") {
 
-        var isAppLoaded by remember { mutableStateOf(false) }
-
-        // Use LaunchedEffect to simulate app loading
         LaunchedEffect(Unit) {
             loadMontserratFont()
             loadKarlaFont()
-            delay(3000) // Simulating a 3-second delay
-            isAppLoaded = true
         }
-
-        // Your app content
-        if (isAppLoaded) {
-            // Display your main app content
-            ComposeApp(navigationController)
-        } else {
-            LoadingScreen()
-        }
+        ComposeApp(navigationController)
+//        App(navigationController)
     }
 }
 
@@ -80,16 +63,6 @@ fun ComposeApp(navigationController: NavigationController) {
         StarField.route -> StarField()
         TicTacToe.route -> TicTacToeIntro()
         else -> NotFoundScreen(navigationController)
-    }
-}
-
-@Composable
-fun LoadingScreen() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        CircularProgressIndicator()
     }
 }
 
