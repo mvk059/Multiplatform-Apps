@@ -4,14 +4,15 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.platform.Font
 import androidx.compose.ui.window.CanvasBasedWindow
+import apps.consistenthashing.ConsistentHashingVisualization
 import apps.starfield.NotFoundScreen
-import navigation.Screens.*
 import apps.starfield.StarField
 import apps.tictactoe.TicTacToeIntro
 import apps.tictactoe.ui.theme.Karla
 import apps.tictactoe.ui.theme.Montserrat
 import kotlinx.browser.window
 import navigation.NavigationController
+import navigation.Screens.*
 import org.w3c.dom.events.Event
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -62,6 +63,7 @@ fun ComposeApp(navigationController: NavigationController) {
         "", Home.route -> HomeScreen(navigationController)
         StarField.route -> StarField()
         TicTacToe.route -> TicTacToeIntro()
+        ConsistentHashing.route -> ConsistentHashingVisualization()
         else -> NotFoundScreen(navigationController)
     }
 }

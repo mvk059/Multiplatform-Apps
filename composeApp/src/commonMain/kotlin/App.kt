@@ -24,40 +24,43 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 @Preview
 fun App2() {
-  MaterialTheme {
-    var showContent by remember { mutableStateOf(false) }
-    Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-      Button(onClick = { showContent = !showContent }) {
-        Text("Click me!")
-      }
-      AnimatedVisibility(showContent) {
-        val greeting = remember { Greeting().greet() }
+    MaterialTheme {
+        var showContent by remember { mutableStateOf(false) }
         Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-          Image(painterResource(Res.drawable.compose_multiplatform), null)
-          Text("Compose: $greeting")
+            Button(onClick = { showContent = !showContent }) {
+                Text("Click me!")
+            }
+            AnimatedVisibility(showContent) {
+                val greeting = remember { Greeting().greet() }
+                Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+                    Image(painterResource(Res.drawable.compose_multiplatform), null)
+                    Text("Compose: $greeting")
+                }
+            }
         }
-      }
     }
-  }
 }
 
 @Composable
 fun HomeScreen(navigationController: NavigationController) {
-  MaterialTheme(
-    typography = Typography,
-  ) {
-    Column(
-      modifier = Modifier.fillMaxSize().background(color = Color.LightGray),
+    MaterialTheme(
+        typography = Typography,
     ) {
-      Button(
-        onClick = { navigationController.navigateTo(Screens.StarField) },
-        content = { Text("StarField!") }
-      )
-      Button(
-        onClick = { navigationController.navigateTo(Screens.TicTacToe) },
-        content = { Text("TicTacToe") }
-      )
-      // Include other UI elements that were initially part of the App composable
+        Column(
+            modifier = Modifier.fillMaxSize().background(color = Color.LightGray),
+        ) {
+            Button(
+                onClick = { navigationController.navigateTo(Screens.StarField) },
+                content = { Text("StarField!") }
+            )
+            Button(
+                onClick = { navigationController.navigateTo(Screens.TicTacToe) },
+                content = { Text("TicTacToe") }
+            )
+            Button(
+                onClick = { navigationController.navigateTo(Screens.ConsistentHashing) },
+                content = { Text("Consistent Hashing") }
+            )
+        }
     }
-  }
 }
