@@ -47,7 +47,7 @@ fun HomeScreen(navigationController: NavigationController) {
     typography = Typography,
   ) {
     Column(
-      modifier = Modifier.fillMaxSize().background(color = Color.LightGray),
+      modifier = Modifier.fillMaxSize().background(color = Color.Green),
     ) {
       Button(
         onClick = { navigationController.navigateTo(Screens.StarField) },
