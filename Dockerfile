@@ -21,14 +21,21 @@ RUN gradle wasmJsBrowserProductionWebpack
 # Use a lightweight web server to serve the WASM content
 FROM nginx:alpine
 
+# Install bash for the startup script
+RUN apk add --no-cache bash
+
 # Copy the built files from the previous stage
 COPY --from=build /app/composeApp/build/dist/wasmJs/productionExecutable/ /usr/share/nginx/html
 
 # Copy the custom Nginx configuration
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
+# Copy startup script
+COPY startup.sh /startup.sh
+RUN chmod +x /startup.sh
+
 # Expose port 3001
 EXPOSE 3001
 
-# The default command will start Nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Use the startup script as the entrypoint
+ENTRYPOINT ["/startup.sh"]
