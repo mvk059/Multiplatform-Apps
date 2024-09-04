@@ -5,8 +5,46 @@
     <title>Compose App</title>
     <script type="application/javascript" src="skiko.js"></script>
     <script type="application/javascript" src="composeApp.js"></script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+        #canvasContainer {
+            width: 90%;
+            height: 100%;
+        }
+        #ComposeTarget {
+            width: 100%;
+            height: 100%;
+        }
+        #htmlContent {
+            width: 50%;
+            height: 100%;
+            overflow-y: auto;
+            padding: 20px;
+            box-sizing: border-box;
+            background: aqua;
+        }
+    </style>
 </head>
 <body>
-<canvas id="ComposeTarget"></canvas>
+<div class="container">
+    <div id="htmlContent">
+        <!-- Your HTML content will go here -->
+        <h1>HTML Content</h1>
+        <p>This is regular HTML content.</p>
+    </div>
+    <div id="canvasContainer">
+        <canvas id="ComposeTarget"></canvas>
+    </div>
+
+</div>
 </body>
 </html>

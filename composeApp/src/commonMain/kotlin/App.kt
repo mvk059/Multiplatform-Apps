@@ -11,6 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.sp
 import apps.tictactoe.ui.theme.Typography
 import multiplatformapps.composeapp.generated.resources.Res
 import multiplatformapps.composeapp.generated.resources.compose_multiplatform
@@ -51,11 +52,11 @@ fun HomeScreen(navigationController: NavigationController) {
     ) {
       Button(
         onClick = { navigationController.navigateTo(Screens.StarField) },
-        content = { Text("StarField!") }
+        content = { Text("StarField!", fontSize = 16.sp) }
       )
       Button(
         onClick = { navigationController.navigateTo(Screens.TicTacToe) },
-        content = { Text("TicTacToe") }
+        content = { Text("TicTacToe", fontSize = 16.sp) }
       )
       // Include other UI elements that were initially part of the App composable
     }

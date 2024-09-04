@@ -1,30 +1,31 @@
-# Start with a base image that includes Java 17
-FROM eclipse-temurin:17-jdk
-
-# Install necessary tools
-RUN apt-get update && apt-get install -y curl unzip
-
-# Install Gradle
-ENV GRADLE_VERSION=8.4
-RUN curl -L https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip -o gradle.zip \
-    && unzip gradle.zip \
-    && rm gradle.zip \
-    && mv gradle-${GRADLE_VERSION} /opt/gradle
-ENV PATH=$PATH:/opt/gradle/bin
+# Use Eclipse Temurin JDK 22 as the base image
+FROM eclipse-temurin:22-jdk-jammy as build
 
 # Set the working directory in the container
-WORKDIR /
+WORKDIR /app
 
 # Copy the project files into the container
 COPY . .
 
-# Run the Gradle task
-RUN chmod +x ./gradlew
-RUN ./gradlew wasmJsBrowserProductionWebpack
-RUN ./gradlew wasmJsBrowserProductionRun
+# Install necessary dependencies (if any)
+RUN apt-get update && apt-get install -y curl unzip
 
-# Set the output directory as a volume
-VOLUME /composeApp/build/dist/wasmJs/productionExecutable/
+# Download and install Gradle 8.8
+RUN curl -L https://services.gradle.org/distributions/gradle-8.8-bin.zip -o gradle.zip
+RUN unzip gradle.zip && rm gradle.zip
+ENV PATH=$PATH:/app/gradle-8.8/bin
 
-# Command to run when the container starts
-CMD ["sh", "-c", "echo 'Build completed. Output is in /composeApp/build/dist/wasmJs/productionExecutable/'"]
+# Build the WASM target
+RUN gradle wasmJsBrowserProductionWebpack
+
+# Use a lightweight web server to serve the WASM content
+FROM nginx:alpine
+
+# Copy the built files from the previous stage
+COPY --from=build /app/composeApp/build/dist/wasmJs/productionExecutable/ /usr/share/nginx/html
+
+# Expose port 3001
+EXPOSE 3001
+
+# The default command will start Nginx
+CMD ["nginx", "-g", "daemon off;"]
