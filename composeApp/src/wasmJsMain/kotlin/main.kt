@@ -10,24 +10,50 @@ import apps.starfield.StarField
 import apps.tictactoe.TicTacToeIntro
 import apps.tictactoe.ui.theme.Karla
 import apps.tictactoe.ui.theme.Montserrat
+import kotlinx.browser.document
 import kotlinx.browser.window
 import navigation.NavigationController
+import org.w3c.dom.HTMLElement
 import org.w3c.dom.events.Event
+import kotlinx.html.*
+import kotlinx.html.dom.*
+import org.w3c.dom.HTMLCanvasElement
 
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() {
-
     val navigationController = NavigationController()
 
     CanvasBasedWindow(canvasElementId = "ComposeTarget") {
+
 
         LaunchedEffect(Unit) {
             loadMontserratFont()
             loadKarlaFont()
         }
+
+        // Observe window size changes
+        val windowSize = remember { mutableStateOf(getWindowSize()) }
+        DisposableEffect(Unit) {
+            val resizeListener: (Event) -> Unit = {
+                windowSize.value = getWindowSize()
+            }
+            window.addEventListener("resize", resizeListener)
+            onDispose {
+                window.removeEventListener("resize", resizeListener)
+            }
+        }
+
+        // Update canvas size
+        LaunchedEffect(windowSize.value) {
+            val canvas = document.getElementById("ComposeTarget") as HTMLCanvasElement
+            canvas.width = windowSize.value.first / 2
+            canvas.height = windowSize.value.second
+        }
+
         ComposeApp(navigationController)
-//        App(navigationController)
     }
+
+    renderHtmlContent()
 }
 
 @Composable
@@ -64,6 +90,20 @@ fun ComposeApp(navigationController: NavigationController) {
         TicTacToe.route -> TicTacToeIntro()
         else -> NotFoundScreen(navigationController)
     }
+}
+
+fun renderHtmlContent() {
+    val htmlContent = document.getElementById("htmlContent") as HTMLElement
+    htmlContent.appendChild(document.create.div {
+        h1 { +"Welcome to the HTML side" }
+        p { +"This is regular HTML content created using Kotlin's HTML DSL." }
+        // Add more HTML content as needed
+    })
+}
+
+
+fun getWindowSize(): Pair<Int, Int> {
+    return Pair(window.innerWidth, window.innerHeight)
 }
 
 private suspend fun loadMontserratFont() {
