@@ -5,6 +5,7 @@
     <title>Compose App</title>
     <script type="application/javascript" src="skiko.js"></script>
     <script type="application/javascript" src="composeApp.js"></script>
+    <script type="module" src="km.js"></script>
     <style>
         body, html {
             margin: 0;
@@ -12,39 +13,109 @@
             height: 100%;
             overflow: hidden;
         }
+
         .container {
             display: flex;
+            flex-direction: column;
             height: 100vh;
         }
+
+        .header {
+            height: 15vh;
+            background-color: #f0f0f0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .content {
+            display: flex;
+            height: 80vh;
+        }
+
         #canvasContainer {
-            width: 90%;
+            width: 50%;
             height: 100%;
         }
+
         #ComposeTarget {
             width: 100%;
             height: 100%;
         }
+
         #htmlContent {
             width: 50%;
             height: 100%;
             overflow-y: auto;
             padding: 20px;
             box-sizing: border-box;
-            background: aqua;
+            background: #e0e0e0;
+        }
+
+        .section {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f8f8f8;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .section:hover {
+            background-color: #d0d0d0;
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <div id="htmlContent">
-        <!-- Your HTML content will go here -->
-        <h1>HTML Content</h1>
-        <p>This is regular HTML content.</p>
+    <div class="header">
+        <h1>Interactive Compose Multiplatform Demo</h1>
+        <p>Hover over the sections below to see changes in the canvas.</p>
     </div>
-    <div id="canvasContainer">
-        <canvas id="ComposeTarget"></canvas>
+    <div class="content">
+        <div id="htmlContent">
+            <div id="section1" class="section" data-section="1">
+                <h2>Section 1</h2>
+                <p>Description for section 1. Hover to see changes in the canvas.</p>
+            </div>
+            <div id="section2" class="section" data-section="2">
+                <h2>Section 2</h2>
+                <p>Description for section 2. Hover to see changes in the canvas.</p>
+            </div>
+            <div id="section3" class="section" data-section="3">
+                <h2>Section 3</h2>
+                <p>Description for section 3. Hover to see changes in the canvas.</p>
+            </div>
+            <div id="greeting"></div>
+            <input type="text" id="nameInput" placeholder="Enter your name">
+            <button id="myElement">Greet</button>
+            <button id="updateComposeButton">Update Compose</button>
+        </div>
+        <div id="canvasContainer">
+            <canvas id="ComposeTarget"></canvas>
+        </div>
     </div>
-
 </div>
+
+<script>
+    function callKotlinFunction() {
+        // The exact syntax might vary depending on your project setup
+        composeApp.updateElement("myElement", "Updated from Kotlin!");
+    }
+
+    // Make JavaScript function available to Kotlin
+    function jsAlert(message) {
+        alert(message);
+    }
+
+    // This function will be available after your Kotlin code initializes
+    function updateComposeFromHTML() {
+        composeApp.updateComposeFromJS("Updated from HTML!");
+    }
+
+    // Set up the button click handler
+    document.getElementById("updateComposeButton").onclick = updateComposeFromHTML;
+
+</script>
+
+
 </body>
 </html>

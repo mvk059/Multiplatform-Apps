@@ -1,6 +1,9 @@
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.Button
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -17,17 +20,27 @@ import apps.tictactoe.ui.theme.Karla
 import apps.tictactoe.ui.theme.Montserrat
 import kotlinx.browser.document
 import kotlinx.browser.window
+import kotlinx.html.div
+import kotlinx.html.dom.create
+import kotlinx.html.h1
+import kotlinx.html.p
 import navigation.NavigationController
 import navigation.Screens
 import navigation.Screens.Home
 import navigation.Screens.TicTacToe
+import org.w3c.dom.HTMLButtonElement
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.events.Event
-import kotlinx.html.*
-import kotlinx.html.dom.*
 
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() {
+
+    document.getElementById("updateComposeButton")?.let { button ->
+        (button as HTMLButtonElement).onclick = {
+            updateComposeFromJS("Updated from HTML button!")
+        }
+    }
+
     val navigationController = NavigationController()
 
     CanvasBasedWindow(canvasElementId = "ComposeTarget") {
@@ -52,7 +65,9 @@ fun main() {
     }
 
     renderHtmlContent()
+
 }
+
 
 @Composable
 fun composeApp(navigationController: NavigationController) {
@@ -64,11 +79,49 @@ fun composeApp(navigationController: NavigationController) {
         currentRoute.value = it
     }
 
-    when (currentRoute.value) {
-        "", Home.route -> HomeScreen(navigationController)
-        Screens.StarField.route -> StarField()
-        TicTacToe.route -> TicTacToeIntro()
-        else -> NotFoundScreen(navigationController)
+    Column {
+        // Display the hovered section
+        var text by remember { mutableStateOf("Hello, World!") }
+
+        Button(onClick = {
+            updateElement("myElement", "Updated from Compose!")
+            jsAlert("Button clicked!")
+        }) {
+            Text("Alert HTML")
+        }
+
+        // Set up the update function
+        LaunchedEffect(Unit) {
+            setUpdateFunction { newValue ->
+                text = newValue
+            }
+        }
+
+        // Set up hover handlers for each section
+        for (i in 1..3) {
+            document.getElementById("section$i")?.let { section ->
+                (section as HTMLElement).onmouseenter = {
+                    updateComposeFromJS(i.toString())
+                }
+            }
+        }
+
+        // Your Compose UI
+        Text(text)
+
+        when(text) {
+            "1" -> HomeScreen(navigationController)
+            "2" -> StarField()
+            "3" -> TicTacToeIntro()
+            else -> HomeScreen(navigationController)
+        }
+
+        when (currentRoute.value) {
+            "", Home.route -> HomeScreen(navigationController)
+            Screens.StarField.route -> StarField()
+            TicTacToe.route -> TicTacToeIntro()
+            else -> NotFoundScreen(navigationController)
+        }
     }
 }
 
