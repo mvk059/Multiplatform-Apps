@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Compose App</title>
+    <title>Portfolio | MK</title>
     <script type="application/javascript" src="skiko.js"></script>
     <script type="application/javascript" src="composeApp.js"></script>
     <script type="module" src="km.js"></script>
@@ -84,38 +84,11 @@
                 <h2>Section 3</h2>
                 <p>Description for section 3. Hover to see changes in the canvas.</p>
             </div>
-            <div id="greeting"></div>
-            <input type="text" id="nameInput" placeholder="Enter your name">
-            <button id="myElement">Greet</button>
-            <button id="updateComposeButton">Update Compose</button>
         </div>
         <div id="canvasContainer">
             <canvas id="ComposeTarget"></canvas>
         </div>
     </div>
 </div>
-
-<script>
-    function callKotlinFunction() {
-        // The exact syntax might vary depending on your project setup
-        composeApp.updateElement("myElement", "Updated from Kotlin!");
-    }
-
-    // Make JavaScript function available to Kotlin
-    function jsAlert(message) {
-        alert(message);
-    }
-
-    // This function will be available after your Kotlin code initializes
-    function updateComposeFromHTML() {
-        composeApp.updateComposeFromJS("Updated from HTML!");
-    }
-
-    // Set up the button click handler
-    document.getElementById("updateComposeButton").onclick = updateComposeFromHTML;
-
-</script>
-
-
 </body>
 </html>
