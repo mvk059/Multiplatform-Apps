@@ -57,16 +57,15 @@ fun composeApp(navigationController: NavigationController) {
     }
 
     when (hoverItem.value) {
-        1 -> HomeScreen(navigationController)
-        2 -> StarField()
-        3 -> TicTacToeIntro()
+        1 -> StarField()
+        2 -> TicTacToeIntro()
         else -> HomeScreen(navigationController)
     }
 }
 
 private fun observeHoverState(onHoverItemChanged: (Int) -> Unit) {
     // Set up hover handlers for each section
-    for (i in 1..3) {
+    for (i in 1..2) {
         document.getElementById("section$i")?.let { section ->
             (section as HTMLElement).onmouseenter = {
                 onHoverItemChanged(i)
