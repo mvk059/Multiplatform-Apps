@@ -1,5 +1,4 @@
 import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -8,7 +7,6 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.platform.Font
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.CanvasBasedWindow
 import apps.starfield.StarField
 import apps.tictactoe.TicTacToeIntro
@@ -16,14 +14,11 @@ import apps.tictactoe.ui.theme.Karla
 import apps.tictactoe.ui.theme.Montserrat
 import kotlinx.browser.document
 import kotlinx.browser.window
-import navigation.NavigationController
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.events.Event
 
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() {
-
-    val navigationController = NavigationController()
 
     CanvasBasedWindow(canvasElementId = "ComposeTarget") {
 
@@ -41,13 +36,13 @@ fun main() {
         }
 
         BoxWithConstraints(modifier = Modifier.size(canvasSize.value.first, canvasSize.value.second)) {
-            composeApp(navigationController)
+            composeApp()
         }
     }
 }
 
 @Composable
-fun composeApp(navigationController: NavigationController) {
+fun composeApp() {
 
     // Display the hovered section
     val hoverItem = remember { mutableStateOf(1) }
@@ -59,7 +54,6 @@ fun composeApp(navigationController: NavigationController) {
     when (hoverItem.value) {
         1 -> StarField()
         2 -> TicTacToeIntro()
-        else -> HomeScreen(navigationController)
     }
 }
 
@@ -68,6 +62,7 @@ private fun observeHoverState(onHoverItemChanged: (Int) -> Unit) {
     for (i in 1..2) {
         document.getElementById("section$i")?.let { section ->
             (section as HTMLElement).onmouseenter = {
+                println("V5: $i")
                 onHoverItemChanged(i)
             }
         }
