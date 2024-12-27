@@ -19,9 +19,7 @@ import org.w3c.dom.events.Event
 
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() {
-
     CanvasBasedWindow(canvasElementId = "ComposeTarget") {
-
         // Load fonts
         LaunchedEffect(Unit) {
             loadMontserratFont()
@@ -35,7 +33,9 @@ fun main() {
             windowSize.value = it
         }
 
-        BoxWithConstraints(modifier = Modifier.size(canvasSize.value.first, canvasSize.value.second)) {
+        BoxWithConstraints(
+            modifier = Modifier.size(canvasSize.value.first, canvasSize.value.second)
+        ) {
             composeApp()
         }
     }
@@ -53,13 +53,19 @@ fun composeApp() {
 
     when (hoverItem.value) {
         1 -> StarField()
-        2 -> TicTacToeIntro()
+        2 -> ProjectNavigationCard(
+            projectTitle = "Meme Editor",
+            projectDescription = "Transform your ideas into viral memes! Featuring popular templates, custom text styles, and easy to download memes.\n\nJump in to start your meme-making journey!",
+            projectUrl = "https://meme.manpreet.fyi"
+        )
+
+        3 -> TicTacToeIntro()
     }
 }
 
 private fun observeHoverState(onHoverItemChanged: (Int) -> Unit) {
     // Set up hover handlers for each section
-    for (i in 1..2) {
+    for (i in 1..3) {
         document.getElementById("section$i")?.let { section ->
             (section as HTMLElement).onmouseenter = {
                 println("V5: $i")
